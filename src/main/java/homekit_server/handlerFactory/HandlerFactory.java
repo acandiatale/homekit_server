@@ -15,12 +15,15 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.eclipse.jetty.util.resource.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import homekit_server.httpServlet.TurnOffServlet;
 import homekit_server.httpServlet.TurnOnServlet;
 
 public class HandlerFactory {
 	private static File resourceFile = new File("dist");
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	
 	public HandlerList setHandlerList() {
 		if(resourceFile == null) {
@@ -41,8 +44,8 @@ public class HandlerFactory {
 		
 		//set resourceHandler
 		URI uri = URI.create(resourceFile.toURI().toASCIIString().replace("/index.html$", "/"));
-		System.out.println("resource URI = " + uri.toString());
-		
+//		System.out.println("resource URI = " + uri.toString());
+		logger.info("resource URI = " + uri.toString());
 		ServletContextHandler handler = new ServletContextHandler(ServletContextHandler.SESSIONS);
 		
 		handler.setContextPath("/");
@@ -50,7 +53,8 @@ public class HandlerFactory {
 		try {
 			handler.setBaseResource(Resource.newResource(uri));
 		} catch (MalformedURLException e) {
-			System.out.println("Fail to set ResourceURI");
+			logger.error("Fail to set ResourceURI");
+//			System.out.println("Fail to set ResourceURI");
 			e.printStackTrace();
 		}
 		
