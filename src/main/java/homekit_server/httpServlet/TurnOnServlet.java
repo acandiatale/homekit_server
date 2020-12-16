@@ -10,8 +10,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.JsonObject;
 
-@SuppressWarnings("serial")
+import homekit_server.serverFactory.TcpAdapter.TcpManager;
+import homekit_server.serverFactory.TcpAdapter.TcpWorker;
+
 public class TurnOnServlet extends HttpServlet {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2247419945558301615L;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -26,6 +33,7 @@ public class TurnOnServlet extends HttpServlet {
 		pw.print(json.toString());
 		pw.flush();
 		pw.close();
+		TcpManager.getInstance().setWork(new TcpWorker(true));
 	}
 
 	@Override
